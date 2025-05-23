@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@import "./css/divs.css";
+@import './css//various-texts.css';
+
+
+
+body {
+  background-color: #1a1a1a;
+  color: #fcfcfc;
+  height: 100vh;
+    scroll-snap-type: x mandatory;
+}
