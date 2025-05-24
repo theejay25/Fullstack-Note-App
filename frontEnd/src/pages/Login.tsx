@@ -1,9 +1,13 @@
 import axios from "axios"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { useAuth } from "../context/ContextProvider"
+// judeokocha06@gmail.com
+
 
 const Login = () => {
     const navigate = useNavigate()
+    const {login} = useAuth()
     
 
     const [email, setEmail] = useState('')
@@ -16,8 +20,9 @@ const Login = () => {
             const response = await axios.post('http://localhost:8080/api/auth/login', {email, password})
 
             if( response.data.success) {
+                login(response.data.user)
                 localStorage.setItem('token', response.data.token)
-                navigate('/dashboard')
+                navigate('/home')
             }
 
             console.log(response)
@@ -40,8 +45,9 @@ const Login = () => {
                 <div className="mb-4">
                     <label htmlFor="email" className="block text-gray-700">Email</label>
                     <input 
+                        required
                         type="email"
-                        value={email} 
+                        value={email.toLowerCase()} 
                         onChange={(e) => setEmail(e.target.value)}
                         className="bg-[#323232] p-2 w-full"
                         placeholder="Email"
@@ -51,6 +57,7 @@ const Login = () => {
                 <div className="mb-6">
                     <label htmlFor="password" className="block text-gray-700">Password</label>
                     <input 
+                        required
                         type="password" 
                         value={password} 
                         onChange={(e) => setPassword(e.target.value)}

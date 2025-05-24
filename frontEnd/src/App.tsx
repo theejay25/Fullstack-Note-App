@@ -4,6 +4,7 @@ import { useEffect } from "react"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
+import Home from "./pages/Home"
 
 function App() {
 
@@ -12,7 +13,7 @@ function App() {
     const fetch = async () => {
       
       try {
-      const data = await axios.get('http://localhost:8080/api/auth/users');
+      const data = await axios.get('http://localhost:8080/me');
       
       console.log(data)
       } catch(error) {
@@ -33,6 +34,7 @@ function App() {
         <Routes>
           <Route element={<Login />} path="/login"></Route>
           <Route element={<SignUp />} path="/signup"></Route>
+          <Route element={<Home />} path="/home"></Route>
         </Routes> 
       </BrowserRouter>
     </>

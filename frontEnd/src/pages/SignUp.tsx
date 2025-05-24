@@ -56,7 +56,7 @@ const SignUp = () => {
                         type="email" 
                         name="" 
                         id="email" 
-                        value={email}
+                        value={email.toLowerCase()}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email" 
                         autoComplete="off" 
