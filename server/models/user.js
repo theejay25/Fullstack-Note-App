@@ -6,5 +6,5 @@ const UserSchema = new mongoose.Schema({
     password: {type: String, require: true},
 })
 
-const User = mongoose.model('user', UserSchema);
+const User = mongoose.model('Note-App user', UserSchema);
 export default User
