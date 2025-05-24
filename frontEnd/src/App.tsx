@@ -13,7 +13,7 @@ function App() {
     const fetch = async () => {
       
       try {
-      const data = await axios.get('http://localhost:8080/me');
+      const data = await axios.get('http://localhost:8081/me');
       
       console.log(data)
       } catch(error) {

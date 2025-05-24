@@ -6,7 +6,7 @@ function NavBar() {
 
     const [search, setSearch] = useState('')
 
-    const  user  = useAuth()
+    const  {user}  = useAuth()
   return (
     <div>
         <div className="p-4 inline-flex justify-between items-center bg-zinc-800 w-full">
@@ -28,7 +28,7 @@ function NavBar() {
                       <Link to={'/login'} className="bg-green-500 py-1 px-2 rounded-md">Log In</Link>
                     ):
                     (   <>
-                            <p className="font-semibold">{user?.name}</p>
+                            <p className="font-semibold">{user.name}</p>
                             <Link to={'/login'} className="bg-red-500 py-1 px-2 rounded-md">Log Out</Link>  
                         </>
                     )

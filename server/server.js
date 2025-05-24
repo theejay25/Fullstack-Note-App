@@ -5,7 +5,7 @@ import connectToMongoDB from './db/db.js'
 
 
 const corsOptions = {
-    origin: ['http://localhost:5174', 'http://localhost:5173']
+    origin: 'http://localhost:5174'
 }
 
 
@@ -23,7 +23,7 @@ app.get('/me', (req, res) => {
 })
 
 
-app.listen(8080, () => {
+app.listen(8081, () => {
     connectToMongoDB()
     console.log('hey GOD IS GREAT TO MEE!!!!!!!!!!!!');
 })
