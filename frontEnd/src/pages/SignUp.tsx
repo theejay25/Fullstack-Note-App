@@ -20,11 +20,13 @@ const SignUp = () => {
             )
             
              if( response.data.success) {
-                navigate('/login')
+                navigate('/')
             }
 
 
             console.log(response)
+
+            e.reset()
 
         }  catch (error) {
             console.error ('Error message:', error)

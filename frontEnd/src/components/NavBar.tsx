@@ -17,7 +17,7 @@ function NavBar() {
                     name="" 
                     id="" 
                     onChange={(e) => setSearch(e.target.value)}
-                    className="p-3 w-40 bg-[#2c2c2c] truncate lg:w-120"
+                    className="p-3 w-40 bg-[#2c2c2c] truncate lg:w-120 sm:w-90"
                     placeholder="Search Notes"
                 />
             </form>
