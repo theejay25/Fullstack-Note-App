@@ -25,7 +25,7 @@ function NavBar() {
             <div className="inline-flex gap-3 items-center lg:gap-10">
                 {!user ?
                     (
-                      <Link to={'/login'} className="bg-green-500 py-1 px-2 rounded-md">Log In</Link>
+                      <Link to={'/'} className="bg-green-500 py-1 px-2 rounded-md">Log In</Link>
                     ):
                     (   <>
                             <p className="font-semibold">{user.name}</p>

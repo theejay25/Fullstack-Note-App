@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken'
-import User from '../models/user'
+import User from '../models/user.js'
 
 const middleware = async (req, res, next) => {
     try {
-        const token = req.headers.authorization.split('')[1]        
+        const token = req.headers.authorization.split(' ')[1]        
         
         if(!token) {
             res.status(401).json({
@@ -21,7 +21,7 @@ const middleware = async (req, res, next) => {
             })
         }
         
-        const user = User.findById({_id: decoded.id})
+        const user = await User.findById({_id: decoded.id})
         
         if(!user) { 
             res.status(401).json({
@@ -30,13 +30,15 @@ const middleware = async (req, res, next) => {
             })
         }
 
-        const newUser = {anme: user.name }
+        const newUser = {name: user.name, id: user._id }
 
         req.user = newUser
 
         next()
 
     } catch (error) {
-        
+        return res.status(500).json({success: false, message: "Please log in"})
     }
 } 
+
+export default middleware
