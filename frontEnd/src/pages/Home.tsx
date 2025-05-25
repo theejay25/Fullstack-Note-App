@@ -19,6 +19,15 @@ function Home() {
     setModalOpen(true)
   }
 
+  const fetchNotes = async () => {
+ 
+       try {
+         const {data} = await axios.get('http://localhost:8081/api/note')
+         setNotes(data.notes)
+       } catch (error) {
+         console.log(error)
+       }
+     }
   
   const addNote =  async (title: string, description: string) => {
     
@@ -36,6 +45,32 @@ function Home() {
         
         if (note.data.success) {
           closeModal()
+          fetchNotes()
+        }    
+        
+        console.log(note)
+        
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    const editNote = async (id: any, title: any, description: any) => {
+      if(!title && !description) {
+      alert('Fill in at least 1 field of information')
+    }
+    
+    try {
+      const note = await axios.put(`http://localhost:8081/api/note/${id}`, 
+        {title, description},{
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }}
+        )
+        
+        if (note.data.success) {
+          fetchNotes()
+          closeModal()
         }    
         
         console.log(note)
@@ -45,19 +80,11 @@ function Home() {
       }
     }
     
-      useEffect(() => {
-        const fetchNotes = async () => {
-    
-          try {
-            const {data} = await axios.get('http://localhost:8081/api/note')
-            setNotes(data.notes)
-          } catch (error) {
-            console.log(error)
-          }
-        }
-    
+
+      useEffect(() => {    
         fetchNotes()
-      }, [addNote])
+      }, [])
+
 
 
     return (
@@ -70,10 +97,9 @@ function Home() {
         {notes.map((note: any, i: number) => (
           
           <Card 
-            note={note.title}
-            description={note.description}
+            note={note}
             key={i}
-            onEdit={onEdit}
+            onclick={() => onEdit?.(note)}
             />
         ))}
     </div>
@@ -91,6 +117,7 @@ function Home() {
           closeModal={closeModal}
           addNote={addNote}
           currentNotes={currentNotes}
+          editNotes={editNote}
           /> }
       </div>
     </>

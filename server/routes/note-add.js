@@ -40,4 +40,20 @@ router.get('/', async (req, res) => {
 }
 })
 
+router.put('/:id', async (req, res) => {
+    try {
+        const {id} = req.params;
+    const updateNotes =  await Note.findByIdAndUpdate(id, req.body)
+    return res.status(200).json({
+        success: true,
+        updateNotes
+    })
+}   catch (error) {
+    return res.status(500).json({
+        success:false,
+        message:'error updating fetching', error
+    })
+}
+})
+
 export default router

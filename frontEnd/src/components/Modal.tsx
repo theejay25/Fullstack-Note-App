@@ -3,10 +3,11 @@ import { useEffect, useState } from "react"
 interface props{
     closeModal?: () => void
     addNote?: (title: string, description: string) => Promise<void>
+    editNotes?:(title: string, description:string, id:string) => Promise<void>;
     currentNotes?: { title?: string; description?: string } | null
 }
 
-const Modal = ({ closeModal, addNote, currentNotes }: props) => {
+const Modal = ({ closeModal, addNote, currentNotes, editNotes }: props) => {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
 
@@ -22,8 +23,15 @@ const Modal = ({ closeModal, addNote, currentNotes }: props) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        if (addNote) {
-            await addNote(title, description)
+        if (currentNotes) {
+            if (editNotes) {
+                // @ts-ignore: Assuming _id exists on currentNotes
+                await editNotes( (currentNotes as any)._id, title, description )
+            }
+        } else {
+            if (addNote) {
+                await addNote(title, description)
+            }
         }
     }
 
