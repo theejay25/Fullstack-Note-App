@@ -3,8 +3,8 @@ import { useEffect, useState } from "react"
 interface props{
     closeModal?: () => void
     addNote?: (title: string, description: string) => Promise<void>
-    editNotes?:(title: string, description:string, id:string) => Promise<void>;
-    currentNotes?: { title?: string; description?: string } | null
+    editNotes?:(id: string, title: string, description:string) => Promise<void>;
+    currentNotes?: { title?: string; description?: string; _id?: string } | null
 }
 
 const Modal = ({ closeModal, addNote, currentNotes, editNotes }: props) => {
@@ -26,7 +26,7 @@ const Modal = ({ closeModal, addNote, currentNotes, editNotes }: props) => {
         if (currentNotes) {
             if (editNotes) {
                 // @ts-ignore: Assuming _id exists on currentNotes
-                await editNotes( (currentNotes as any)._id, title, description )
+                await editNotes((currentNotes as any)._id, title, description)
             }
         } else {
             if (addNote) {

@@ -1,16 +1,17 @@
-import React, { useContext, createContext, useState  } from "react"
+import axios from "axios"
+import React, { useContext, createContext, useState, useEffect  } from "react"
 
 interface authContextProps {
     user: any,
     login:(user: any) => void,
-    logout: () => void,
+    handleLogout: () => void,
 }
 
 
 const authContext = createContext<authContextProps>({ 
     user: null,
     login: () => {},
-    logout: () => {}
+    handleLogout: () => {}
 })
 
 interface props {
@@ -23,16 +24,40 @@ function ContextProvider({ children }: props) {
     const login = (user: React.SetStateAction<null>) => {
         setUser(user)
     }
-    const logout = () => {
-        setUser(null)
+
+     const handleLogout = () => {
+        localStorage.removeItem('token')
+        setUser (null)
     }
 
+    useEffect(() => {
+        const verifyUser = async () => {
+            try {
+                const res = await axios.get('http://localhost:8081/api/auth/verify', {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                })
+                
+
+                if (res.data.success) {
+                    setUser(res.data.user)
+                } else {
+                    setUser(null)
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        verifyUser()
+    }, [])
+
   return (
-    <authContext.Provider value={{ user, login, logout }}>
+    <authContext.Provider value={{ user, login,  handleLogout }}>
         {children}
     </authContext.Provider>
   )
 }
 
 export const useAuth = () => useContext(authContext)
-export default ContextProvider
+export  {ContextProvider as default}

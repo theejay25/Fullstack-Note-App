@@ -1,9 +1,0 @@
-@layer {
-    .scrollable-div {
-        @apply overflow-x-auto p-3 mt-5 w-full inline-flex gap-4
-    } 
-
-    .ul {
-        @apply absolute bg-[#2c2c2c] lg:bg-transparent lg:flex lg:h-fit lg:ml-[80vw]
-    }
-}

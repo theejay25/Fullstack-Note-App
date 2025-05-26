@@ -5,6 +5,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
 import Home from "./pages/Home"
+import { ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
 
@@ -35,7 +37,8 @@ function App() {
           <Route element={<Login />} path="/"></Route>
           <Route element={<SignUp />} path="/signup"></Route>
           <Route element={<Home />} path="/home"></Route>
-        </Routes> 
+        </Routes>
+        <ToastContainer /> 
       </BrowserRouter>
     </>
   )

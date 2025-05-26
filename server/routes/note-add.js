@@ -25,19 +25,19 @@ router.post('/add', middleware , async (req, res) => {
 
 })
 
-router.get('/', async (req, res) => {
+router.get('/', middleware , async (req, res) => {
     try {
-    const notes =  await Note.find()
-    return res.status(200).json({
-        success: true,
-        notes
-    })
-}   catch (error) {
-    return res.status(500).json({
-        success:false,
-        message:'error note fetching', error
-    })
-}
+        const notes =  await Note.find({ userId: req.user.id })
+        return res.status(200).json({
+            success: true,
+            notes
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            message:'error note fetching', error
+        })
+    }
 })
 
 router.put('/:id', async (req, res) => {
@@ -55,5 +55,22 @@ router.put('/:id', async (req, res) => {
     })
 }
 })
+
+router.delete('/:id', async (req, res) => {
+        try {
+        const {id} = req.params;
+    const deletedNotes =  await Note.findByIdAndDelete(id)
+    return res.status(200).json({
+        success: true,
+        deletedNotes
+    })
+}   catch (error) {
+    return res.status(500).json({
+        success:false,
+        message:'error deleting fetching', error
+    })
+}
+})
+
 
 export default router

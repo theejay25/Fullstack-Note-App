@@ -3,12 +3,15 @@ import Modal from '../components/Modal'
 import NavBar from '../components/NavBar'
 import axios from 'axios'
 import Card from '../components/Card'
+import { toast } from 'react-toastify'
 
 function Home() {
 
   const [isModalOpen, setModalOpen] = useState(false)
   const [notes, setNotes] = useState([])
   const [currentNotes, setCurrentNotes] = useState(null)
+  const [query, setQuery] = useState('')
+  const [filter, setFilter] = useState<any[]>([])
 
   const closeModal = () => {
     setModalOpen(false)
@@ -22,7 +25,11 @@ function Home() {
   const fetchNotes = async () => {
  
        try {
-         const {data} = await axios.get('http://localhost:8081/api/note')
+         const {data} = await axios.get('http://localhost:8081/api/note', {
+           headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+         })
          setNotes(data.notes)
        } catch (error) {
          console.log(error)
@@ -54,6 +61,27 @@ function Home() {
         console.error(error)
       }
     }
+    
+    const deleteNotes = async (id: any) => {
+      try {
+      const response = await axios.delete(`http://localhost:8081/api/note/${id}`,{  
+              headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }}
+        )
+        
+        if (response.data.success) {
+          toast.success('Note deleted')
+          fetchNotes()
+        }    
+        
+        console.log(response)
+        
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    
 
     const editNote = async (id: any, title: any, description: any) => {
       if(!title && !description) {
@@ -79,29 +107,40 @@ function Home() {
         console.error(error)
       }
     }
+
     
 
       useEffect(() => {    
         fetchNotes()
       }, [])
 
+      useEffect(() => {
+        setFilter(
+          notes.filter((note: any) =>
+            note.title.toLowerCase().includes(query.toLowerCase()) ||
+            note.description.toLowerCase().includes(query.toLowerCase()) 
+          )
+        )
+      }, [query, notes])
+
 
 
     return (
     <>
       <div>
-        <NavBar />
+        <NavBar setQuery={setQuery}/>
 
     
     <div className='grid grid-cols-1 md:grid-cols-3 gap-3 p-3'>
-        {notes.map((note: any, i: number) => (
+        {filter.length > 0 ? filter.map((note: any, i: number) => (
           
           <Card 
             note={note}
             key={i}
-            onclick={() => onEdit?.(note)}
+            onEdit={() => onEdit?.(note)}
+            onDelete={() => deleteNotes?.(note._id)}
             />
-        ))}
+        )) : <p>No Notes</p>}
     </div>
 
         <button 

@@ -1,5 +1,0 @@
-@layer {
-    .list{
-            @apply py-3 cursor-pointer text-center hover:text-blue-200 lg:px-3 lg:py-0       
-    }
-}
