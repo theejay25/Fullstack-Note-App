@@ -58,7 +58,7 @@ function Home() {
         console.log(note)
         
       } catch (error) {
-        console.error(error)
+        alert('Please Sign in')
       }
     }
     
