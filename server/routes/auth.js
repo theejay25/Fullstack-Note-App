@@ -17,7 +17,7 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({success: false, message: 'user doesn\'t exist'})
         }
 
-        const checkPassword = bcrypt.compare(password, user.password)
+        const checkPassword =  await bcrypt.compare(password, user.password)
 
         if(!checkPassword) {
             return res.status(401).json({success: false, message:'wrong details'})

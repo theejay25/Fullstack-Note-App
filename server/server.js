@@ -28,4 +28,5 @@ app.get('/me', (req, res) => {
 app.listen(8081, () => {
     connectToMongoDB()
     console.log('hey GOD IS GREAT TO MEE!!!!!!!!!!!!');
+    console.log('hey GOD IS GREAT TO MEE!!!!!!!!!!!!');
 })
