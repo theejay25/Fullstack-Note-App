@@ -26,8 +26,6 @@ const SignUp = () => {
 
             console.log(response)
 
-            e.reset()
-
         }  catch (error) {
             console.error ('Error message:', error)
         }
