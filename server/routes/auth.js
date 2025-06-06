@@ -116,7 +116,15 @@ router.get('/verify', middleware, async (req, res) => {
 })
 
 router.post('/verify-email', async (req, res) => {
-    
+    const { code } = req.body;
+
+    const token = await User.findOne({ verificationToken: code})
+
+    if(!token) {
+        return res.status(401).json({success: false, message: 'Invalid token'})
+    }
+
+    await User.save()
 })
 
 export default router
