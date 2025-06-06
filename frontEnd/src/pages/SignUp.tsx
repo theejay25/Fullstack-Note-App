@@ -20,7 +20,7 @@ const SignUp = () => {
             )
             
              if( response.data.success) {
-                navigate('/')
+                navigate('/verify')
             }
 
 
